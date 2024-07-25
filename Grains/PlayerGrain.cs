@@ -1,30 +1,51 @@
-﻿using GrainInterfaces;
 using Microsoft.Extensions.Logging;
-using Orleans.Concurrency;
+using Orleans.Grains.Models;
+using Orleans.Providers;
 
-namespace Grains;
+namespace Orleans.Grains;
 
-[Reentrant]
-public class PlayerGrain : Grain, IPlayerGrain
+[StorageProvider(ProviderName = "PlayerState")]
+public class PlayerGrain : Grain<PlayerState>, IPlayerGrain
 {
-    private readonly ILogger<PlayerGrain> _logger;
-    private readonly IPersistentState<PlayerInfo> _state;
+    private readonly ILogger<PlayerGrain> logger;
+    private IRoomGrain? currentRoom;
+    private string GrainType => nameof(PlayerGrain);
+    private Guid GrainKey => this.GetPrimaryKey();
 
-    public PlayerGrain(
-       [PersistentState(stateName: "playerInfo", storageName: "Players")] IPersistentState<PlayerInfo> state,
-       ILogger<PlayerGrain> logger)
+    public PlayerGrain(ILogger<PlayerGrain> logger)
     {
-        _state = state;
-        _logger = logger;
+        this.logger = logger;
     }
 
-    private static string GrainType => nameof(PlayerGrain);
-    private string GrainKey => this.GetPrimaryKeyString();
-
-    public override Task OnActivateAsync(CancellationToken _)
+    #region override
+    public override Task OnActivateAsync(CancellationToken token)
     {
-        _logger.LogInformation("{GrainType} {GrainKey} activated.", GrainType, GrainKey);
+        logger.LogInformation("{@GrainType} {@GrainKey} activated.", this.GrainType, this.GrainKey);
+        return base.OnActivateAsync(token);
+    }
+    #endregion
 
-        return Task.CompletedTask;
+    public async Task<int> GetWinCount() => await Task.FromResult(State.winCount);
+
+    public async Task<IRoomGrain?> GetCurrentRoomAsync() => await Task.FromResult(currentRoom);
+
+    public async Task JoinoRoomAsync(IRoomGrain room)
+    {
+        currentRoom = room;
+        logger.LogInformation("Player {@PlayerKey} joined room {@RoomKey}", GrainKey, room.GetPrimaryKey());
+        await Task.CompletedTask;
+    }
+
+    public async Task LeaveRoomAsync(IRoomGrain room)
+    {
+        currentRoom = null;
+        logger.LogInformation("Player {@PlayerKey} left room {@RoomKey}", GrainKey, room.GetPrimaryKey());
+        await Task.CompletedTask;
+    }
+
+    public async Task IncrementWin()
+    {
+        State.winCount++;
+        await WriteStateAsync();
     }
 }

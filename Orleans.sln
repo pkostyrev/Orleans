@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grains", "Grains\Grains.csproj", "{7877CF8F-E62E-417C-923F-3CCBE8E58A7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrainInterfaces", "GrainInterfaces\GrainInterfaces.csproj", "{E37EDA7E-A27E-4C49-B756-8B7922539B59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrainInterfaces", "GrainInterfaces\GrainInterfaces.csproj", "{E37EDA7E-A27E-4C49-B756-8B7922539B59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grains.Interfaces", "GrainInterfaces\Grains.Interfaces.csproj", "{82ABC51A-54D0-42E8-80D0-49A81D2B98F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E37EDA7E-A27E-4C49-B756-8B7922539B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E37EDA7E-A27E-4C49-B756-8B7922539B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E37EDA7E-A27E-4C49-B756-8B7922539B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82ABC51A-54D0-42E8-80D0-49A81D2B98F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82ABC51A-54D0-42E8-80D0-49A81D2B98F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82ABC51A-54D0-42E8-80D0-49A81D2B98F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82ABC51A-54D0-42E8-80D0-49A81D2B98F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

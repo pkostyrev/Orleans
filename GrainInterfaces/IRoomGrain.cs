@@ -1,5 +1,11 @@
-﻿namespace GrainInterfaces;
+﻿using Grains.Interfaces.Models;
 
-public interface IRoomGrain
+namespace Orleans.Grains;
+
+public interface IRoomGrain : IGrainWithGuidKey
 {
+    Task UpdateRoomState(RoomState roomState);
+    Task SendAnswer(Guid playerKey, int answer);
+    Task ObserveRoomUpdatesAsync(IRoomObserver observer);
+    Task UnobserveRoomUpdatesAsync(IRoomObserver observer);
 }
